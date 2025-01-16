@@ -4,14 +4,12 @@ import Result from "./components/result";
 
 export default function Home() {
   return (
-    <div>
-      <div className="flex w-full max-w-sm items-center space-x-2">
+    <div className="px-32 justify-center">
+      <div className="flex w-full max-w-3xl items-center space-x-4 mb-4">
         <InputText />
-      </div>
-      <div className="flex w-full max-w-sm items-center space-x-2">
         <Language />
       </div>
-      <div className="flex w-full max-w-sm items-center space-x-2">
+      <div className="w-full max-w-3xl">
         <Result />
       </div>
     </div>

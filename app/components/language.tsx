@@ -19,7 +19,7 @@ const items = [
 ];
 
 export function Language() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   return (
