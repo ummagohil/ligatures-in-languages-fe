@@ -8,6 +8,7 @@ export default function Home() {
       <div className="flex w-full max-w-3xl items-center space-x-4 mb-4">
         <InputText />
         <Language />
+        <Language />
       </div>
       <div className="w-full max-w-3xl">
         <Result />
