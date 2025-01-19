@@ -25,7 +25,10 @@ export function Language() {
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
       <DropdownMenuTrigger asChild>
-        <Button variant="outline" className="w-[200px] justify-between">
+        <Button
+          variant="outline"
+          className="w-full justify-between bg-[#B24703] text-[#F9F2D6] border-none hover:bg-[#B24703]/90 hover:text-[#CB9B8E]"
+        >
           {selectedItem
             ? items.find((item) => item.value === selectedItem)?.label
             : "Select an item"}
@@ -36,12 +39,15 @@ export function Language() {
           )}
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-[200px]">
+      <DropdownMenuContent
+        className="w-full bg-[#B24703] text-[#F9F2D6] border-none p-1 min-w-[var(--radix-dropdown-trigger-width)]"
+        align="start"
+      >
         {items.map((item) => (
           <DropdownMenuItem
             key={item.value}
             onSelect={() => setSelectedItem(item.value)}
-            className="cursor-pointer"
+            className="w-64	cursor-pointer hover:bg-[#B24703]/90 hover:text-[#CB9B8E] focus:bg-[#B24703]/90 focus:text-[#CB9B8E] px-4 py-2 rounded-sm"
           >
             {item.label}
           </DropdownMenuItem>
