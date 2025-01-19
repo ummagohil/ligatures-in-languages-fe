@@ -14,7 +14,7 @@ export default function Home() {
             <Language />
           </div>
           <div className="w-full">
-            <Language />
+            <Language />test
           </div>
         </div>
         <div className="w-full mb-4">
