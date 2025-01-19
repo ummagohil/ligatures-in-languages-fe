@@ -47,7 +47,7 @@ export function Language() {
           <DropdownMenuItem
             key={item.value}
             onSelect={() => setSelectedItem(item.value)}
-            className="w-64	cursor-pointer hover:bg-[#B24703]/90 hover:text-[#CB9B8E] focus:bg-[#B24703]/90 focus:text-[#CB9B8E] px-4 py-2 rounded-sm"
+            className="w-56	cursor-pointer hover:bg-[#B24703]/90 hover:text-[#CB9B8E] focus:bg-[#B24703]/90 focus:text-[#CB9B8E] px-4 py-2 rounded-sm"
           >
             {item.label}
           </DropdownMenuItem>
