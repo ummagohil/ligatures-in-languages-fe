@@ -1,7 +1,7 @@
 import InputText from "./components/input";
 import { Language } from "./components/language";
 import Result from "./components/result";
-
+import Test from "./components/test";
 export default function Home() {
   return (
     <div className="container mx-auto px-4 max-w-4xl flex flex-col items-center">
@@ -22,6 +22,7 @@ export default function Home() {
         </div>
         <div className="w-full">
           <Result />
+          <Test />
         </div>
       </div>
     </div>

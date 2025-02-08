@@ -7,27 +7,40 @@ export const config = {
   runtime: "edge",
 };
 
-interface TranslationRequest {
-  text: string;
-  sourceLanguage: string;
-  targetLanguage: string;
-}
-
 export default async function handler(req: NextRequest) {
+  // Allow POST method and handle the request body
   if (req.method === "POST") {
-    const { text, sourceLanguage, targetLanguage }: TranslationRequest =
-      await req.json();
-
     try {
+      // Get JSON body from the POST request
+      const { text, sourceLanguage, targetLanguage } = await req.json();
       const modelName = `Helsinki-NLP/opus-mt-${sourceLanguage}-${targetLanguage}`;
-      const translation = await hf.translation({
+
+      const translationResponse = await hf.translation({
         model: modelName,
         inputs: text,
       });
 
-      return NextResponse.json({ translatedText: translation });
+      if (
+        translationResponse &&
+        Array.isArray(translationResponse) &&
+        translationResponse.length > 0 &&
+        "translation_text" in translationResponse[0]
+      ) {
+        return NextResponse.json({
+          translatedText: translationResponse[0].translation_text,
+        });
+      } else {
+        return NextResponse.json(
+          { error: "No translation found" },
+          { status: 400 }
+        );
+      }
     } catch (error) {
-      return NextResponse.json({ error: error }, { status: 500 });
+      console.error("Translation failed:", error);
+      return NextResponse.json(
+        { error: "Translation failed" },
+        { status: 500 }
+      );
     }
   } else {
     return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
