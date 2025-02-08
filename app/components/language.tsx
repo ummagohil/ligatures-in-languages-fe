@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { ChevronDown, ChevronUp } from "lucide-react";
-
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -11,16 +10,23 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-const items = [
-  { label: "Apple", value: "apple" },
-  { label: "Banana", value: "banana" },
-  { label: "Cherry", value: "cherry" },
-  { label: "Date", value: "date" },
+const languages = [
+  { label: "English", value: "en" },
+  { label: "Hindi", value: "hi" },
+  { label: "Arabic", value: "ar" },
+  { label: "Spanish", value: "es" },
+  { label: "French", value: "fr" },
+  { label: "German", value: "de" },
 ];
 
-export function Language() {
+interface LanguageProps {
+  value: string;
+  onChange: (value: string) => void;
+  type: "source" | "target";
+}
+
+export function Language({ value, onChange, type }: LanguageProps) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [selectedItem, setSelectedItem] = useState<string | null>(null);
 
   return (
     <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
@@ -29,9 +35,8 @@ export function Language() {
           variant="outline"
           className="w-full justify-between bg-[#B24703] text-[#F9F2D6] border-none hover:bg-[#B24703]/90 hover:text-[#CB9B8E]"
         >
-          {selectedItem
-            ? items.find((item) => item.value === selectedItem)?.label
-            : "Select an item"}
+          {languages.find((lang) => lang.value === value)?.label ||
+            `Select ${type} language`}
           {isOpen ? (
             <ChevronUp className="h-4 w-4 opacity-50" />
           ) : (
@@ -43,13 +48,13 @@ export function Language() {
         className="w-full bg-[#B24703] text-[#F9F2D6] border-none p-1 min-w-[var(--radix-dropdown-trigger-width)]"
         align="start"
       >
-        {items.map((item) => (
+        {languages.map((lang) => (
           <DropdownMenuItem
-            key={item.value}
-            onSelect={() => setSelectedItem(item.value)}
-            className="w-56	cursor-pointer hover:bg-[#B24703]/90 hover:text-[#CB9B8E] focus:bg-[#B24703]/90 focus:text-[#CB9B8E] px-4 py-2 rounded-sm"
+            key={lang.value}
+            onSelect={() => onChange(lang.value)}
+            className="w-56 cursor-pointer hover:bg-[#B24703]/90 hover:text-[#CB9B8E] focus:bg-[#B24703]/90 focus:text-[#CB9B8E] px-4 py-2 rounded-sm"
           >
-            {item.label}
+            {lang.label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

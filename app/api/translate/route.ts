@@ -3,33 +3,36 @@ import { HfInference } from "@huggingface/inference";
 
 const hf = new HfInference(process.env.HUGGINGFACE_API_KEY as string);
 
-export const config = {
-  runtime: "edge",
-};
+export const runtime = "edge";
 
-interface TranslationRequest {
-  text: string;
-  sourceLanguage: string;
-  targetLanguage: string;
-}
+export async function POST(req: NextRequest) {
+  try {
+    // Get JSON body from the POST request
+    const { text, sourceLanguage, targetLanguage } = await req.json();
+    const modelName = `Helsinki-NLP/opus-mt-${sourceLanguage}-${targetLanguage}`;
 
-export default async function handler(req: NextRequest) {
-  if (req.method === "POST") {
-    const { text, sourceLanguage, targetLanguage }: TranslationRequest =
-      await req.json();
+    const translationResponse = await hf.translation({
+      model: modelName,
+      inputs: text,
+    });
 
-    try {
-      const modelName = `Helsinki-NLP/opus-mt-${sourceLanguage}-${targetLanguage}`;
-      const translation = await hf.translation({
-        model: modelName,
-        inputs: text,
+    if (
+      translationResponse &&
+      Array.isArray(translationResponse) &&
+      translationResponse.length > 0 &&
+      "translation_text" in translationResponse[0]
+    ) {
+      return NextResponse.json({
+        translatedText: translationResponse[0].translation_text,
       });
-
-      return NextResponse.json({ translatedText: translation });
-    } catch (error) {
-      return NextResponse.json({ error: error }, { status: 500 });
+    } else {
+      return NextResponse.json(
+        { error: "No translation found" },
+        { status: 400 }
+      );
     }
-  } else {
-    return NextResponse.json({ error: "Method not allowed" }, { status: 405 });
+  } catch (error) {
+    console.error("Translation failed:", error);
+    return NextResponse.json({ error: "Translation failed" }, { status: 500 });
   }
 }
