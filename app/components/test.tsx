@@ -9,6 +9,11 @@ const TranslationForm: React.FC = () => {
   const [error, setError] = useState("");
 
   const handleTranslate = async () => {
+    if (!text.trim()) {
+      setError("Please enter text to translate");
+      return;
+    }
+
     try {
       const response = await fetch("/api/translate", {
         method: "POST",
